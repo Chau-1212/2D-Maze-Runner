@@ -138,7 +138,7 @@ class MainMenu(arcade.View):
             ) * 2:
 
                 # Switch to game view here
-                pass
+                self.window.show_view(InGameView())
 
     # Mouse input
     def on_mouse_press(
@@ -157,7 +157,43 @@ class PauseView(arcade.View):
     pass
 
 class InGameView(arcade.View):
-    pass
+
+    def __init__(self):
+        super().__init__()
+
+        self.player_x = 100
+        self.player_y = 100
+        self.player_speed = 300
+        self.keys = set() #It don allow two differnt key be the same like W+W only W+A
+
+    def on_draw(self):
+        self.clear(arcade.color.BLACK)
+
+        arcade.draw_circle_filled(
+            self.player_x,
+            self.player_y,
+            20,
+            arcade.color.BLUE
+        )
+
+    #It check what key is currently hold
+    def on_key_press(self,key, modifer):
+        self.keys.add(key) #it add the key to the set so self.key become the key you press down
+
+    def on_key_release(self, key, modifer): #modifer is for special key like shift,ctrl,SUPER
+        self.keys.discard(key)
+
+
+    def on_update(self,delta_time):
+
+        if arcade.key.W in self.keys:
+            self.player_y += self.player_speed * delta_time
+        if arcade.key.S in self.keys:
+            self.player_y -= self.player_speed * delta_time
+        if arcade.key.A in self.keys:
+            self.player_x -= self.player_speed * delta_time
+        if arcade.key.D in self.keys:
+            self.player_x += self.player_speed * delta_time
 
 class WinView(arcade.View):
     pass
