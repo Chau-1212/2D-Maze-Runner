@@ -2,13 +2,13 @@ class item:
     def __init__(self,name,item_type,p_effect=0,n_effect=0):
         self.name = name
         self.item_type = item_type
-        self.p_effect = 0
-        self.n_effect = 0
+        self.p_effect = p_effect
+        self.n_effect = n_effect
 
 
 class flash:
     def __init__(self,battery=50):
-        self.name = "Flashlight"
+        self.name = "flashlight"
         self.on = False
         self.battery = battery
         self.vision = 3
@@ -32,12 +32,14 @@ class flash:
             pass
 
 bread = item("bread", "hunger", 25)
-raw_meat = item("raw_meat", "hunger", 10, -10)
+raw_meat = item("raw_meat", "health", 5, 0)
 cooked_meat = item("cooked_meat", "health", 40)
 coal = item("coal", "fuel", 1)
 battery = item("battery", "energy", 40)
+flashlight = flash()
 
 items = {
+    "flashlight": flashlight,
     "bread": bread, #it use the string to find the object
     "raw_meat": raw_meat,
     "cooked_meat": cooked_meat,

@@ -2,7 +2,7 @@ from curses import flash
 import numbers
 
 import arcade
-from item import battery
+from item import battery, flash
 
 class Player:
     def __init__(self):
@@ -24,6 +24,10 @@ class Player:
         self.flashlight = None #So i can check can we use battery
 
     def pick_up_item(self, item, number): #Pick up item from the floor
+        if isinstance(item, flash): #flashlight is equipped, not stored in the hotbar
+            self.flashlight = item
+            return
+
         for inventory_item in self.inventory:
             if inventory_item[0] == item:
                 inventory_item[1] += number
@@ -52,11 +56,17 @@ class Player:
                 self.hunger += item.p_effect
                 self.health -= item.n_effect
 
+            case "health":
+                self.health += item.p_effect
+
             case "energy":
                 if self.flashlight is not None:
                     self.flashlight.battery += item.p_effect
                 else:
                     return
+
+            case _:
+                return
 
         inventory_item[1] -= 1
 

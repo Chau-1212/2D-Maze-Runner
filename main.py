@@ -5,7 +5,7 @@ import arcade
 
 
 
-window = arcade.Window(title="2D Maze Runne",
+window = arcade.Window(title="2D Maze Runner",
     width=1280,
     height=720,
     resizable= True)
