@@ -1,7 +1,3 @@
-from multiprocessing import parent_process
-from time import sleep
-
-
 class item:
     def __init__(self,name,item_type,p_effect=0,n_effect=0):
         self.name = name
@@ -21,8 +17,10 @@ class flash:
 
     def turn_on(self):
         self.on = True
+
     def turn_off(self):
         self.on = False
+
     def spike(self):
         if self.battery >= 25:
             self.battery -= 25
@@ -33,8 +31,16 @@ class flash:
         else:
             pass
 
+bread = item("bread", "hunger", 25)
+raw_meat = item("raw_meat", "hunger", 10, -10)
+cooked_meat = item("cooked_meat", "health", 40)
+coal = item("coal", "fuel", 1)
+battery = item("battery", "energy", 40)
 
-bread = item("bread", "hunger", 20)
-raw = item("Raw Meat", "hunger", 10, 5)
-cooked = item("Cooked Meat", "hunger", 25)
-battery = item("Battery", "energy", 25)
+items = {
+    "bread": bread, #it use the string to find the object
+    "raw_meat": raw_meat,
+    "cooked_meat": cooked_meat,
+    "coal": coal,
+    "battery": battery
+}

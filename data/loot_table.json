@@ -1,0 +1,10 @@
+{
+  "chest_loot": [
+    {"item": "flashlight", "drop_rate": 5},
+    {"item": "bread", "drop_rate": 30},
+    {"item": "raw_meat", "drop_rate": 20, "quantity": "1-3"},
+    {"item": "coal", "drop_rate": 20},
+    {"item": "battery", "drop_rate": 10},
+    {"item": "nothing", "drop_rate": 15}
+  ]
+}

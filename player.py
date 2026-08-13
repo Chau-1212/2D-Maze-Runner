@@ -1,4 +1,8 @@
+from curses import flash
+import numbers
+
 import arcade
+from item import battery
 
 class Player:
     def __init__(self):
@@ -10,17 +14,70 @@ class Player:
         # Stat
         self.health = 100
         self.hunger = 100
+        self.lost = False
+        self.win = False
 
-        # Invetory
-        self.invetory = [] #2d list for item name and number of item
+        # inventory
+        self.inventory = [] #2d list for item name and number of item
+        self.selected_slot = 0
         self.max_item_types = 3
+        self.flashlight = None #So i can check can we use battery
 
-    def add_item(self, item, number):
-        for invetory_item in self.invetory:
-            if invetory_item[0] == item:
-                invetory_item[1] += number
+    def pick_up_item(self, item, number): #Pick up item from the floor
+        for inventory_item in self.inventory:
+            if inventory_item[0] == item:
+                inventory_item[1] += number
                 return
 
-            if len(self.invetory) >= self.max_item_types:
-                return #if you have too much type of item in the invetory you can't take it
-        self.invetory.append([item,number]) #If item don exist in player invetory
+        if len(self.inventory) >= self.max_item_types:
+            return
+
+        self.inventory.append([item, number])
+
+    def loot_chest(self,chest,num): # player can press 1,2,3 to select the itme and press e to take it
+            pass
+
+
+    def use_item(self):
+
+        if self.selected_slot >= len(self.inventory):
+            return
+
+        inventory_item = self.inventory[self.selected_slot]
+        item = inventory_item[0]
+
+        match item.item_type:
+
+            case "hunger":
+                self.hunger += item.p_effect
+                self.health -= item.n_effect
+
+            case "energy":
+                if self.flashlight is not None:
+                    self.flashlight.battery += item.p_effect
+                else:
+                    return
+
+        inventory_item[1] -= 1
+
+        if inventory_item[1] <= 0:
+            self.inventory.remove(inventory_item)
+
+    def drop_item(self,item):
+        for inventory_item in self.inventory:
+
+            if inventory_item[0] == item:
+                inventory_item[1] -= 1
+
+                if inventory_item[1] <= 0:
+                    self.inventory.remove(inventory_item)
+                return
+
+    def hot_bar(self,number):
+        match number:
+            case 1:
+                self.selected_slot = 0
+            case 2:
+                self.selected_slot = 1
+            case 3:
+                self.selected_slot = 2
