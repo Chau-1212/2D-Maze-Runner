@@ -1,4 +1,3 @@
-.venv/
-2DmR_plan.md
-Plan.md
-__pycache__/
+/__pycache__/
+/__pycache__/*
+/.venv/
