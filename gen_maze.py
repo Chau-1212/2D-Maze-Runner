@@ -1,7 +1,5 @@
 import random
 
-from arcade.color import NEW_YORK_PINK
-
 class Maze:
     def __init__(self,room,maze,hallway):
         self.room = room #room size
@@ -67,10 +65,41 @@ class Maze:
                 new_y = new_row * self.stride + 1
                 #the new top left tile of the new room from the directoin
 
-                if dir_row != 0: #if row change
-                    #up or down
+                if dir_row == 1: #go down
                     passage_x = x + self.room // 2 #make sure it is in the middle of the room
                     passage_y = y + self.room
-                else: #left or right
+
+                    for i in range(self.hallway):
+                        self.maze[passage_y + i][passage_x] = 1 #it make that tile become 1 which is floor
+
+                elif dir_row == -1: #go up
+                    passage_x = x + self.room // 2
+                    passage_y = y - 1
+
+                    for i in range(self.hallway):
+                        self.maze[passage_y - i][passage_x] = 1
+
+                elif dir_column == 1: #go right
                     passage_x = x + self.room
-                    passage_y = y + self.room // 2
+                    passage_y = y - self.room //2
+
+                    for i in range(self.hallway):
+                        self.maze[passage_y][passage_x + i] = 1
+
+                elif dir_column == -1: #go left
+                    passage_x = x - 1
+                    passage_y = y - self.room // 2
+
+                    for i in range(self.hallway):
+                        self.maze[passage_y][passage_x - i] = 1
+
+                # When we create the maze we fill it with wall so when we carve out room there is already
+                # wall around it so we can do the hallway outside of the room which is the wall.
+
+                self.dfs(new_row,new_column)
+
+    def gen_maze(self):
+        self.create_grid()
+        self.dfs(0,0)
+
+        return self.maze
