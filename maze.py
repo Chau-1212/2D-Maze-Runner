@@ -1,9 +1,9 @@
 import random
 
 class Maze:
-    def __init__(self,room,maze,hallway):
+    def __init__(self,room,size,hallway):
         self.room = room #room size
-        self.size = maze
+        self.size = size
         self.hallway = hallway
         self.stride = room + hallway
 
@@ -81,14 +81,14 @@ class Maze:
 
                 elif dir_column == 1: #go right
                     passage_x = x + self.room
-                    passage_y = y - self.room //2
+                    passage_y = y + self.room //2
 
                     for i in range(self.hallway):
                         self.maze[passage_y][passage_x + i] = 1
 
                 elif dir_column == -1: #go left
                     passage_x = x - 1
-                    passage_y = y - self.room // 2
+                    passage_y = y + self.room // 2
 
                     for i in range(self.hallway):
                         self.maze[passage_y][passage_x - i] = 1
@@ -100,6 +100,6 @@ class Maze:
 
     def gen_maze(self):
         self.create_grid()
-        self.dfs(0,0)
+        self.dfs((self.size//2),(self.size//2))
 
         return self.maze
