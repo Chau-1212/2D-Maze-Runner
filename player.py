@@ -1,4 +1,4 @@
-from ast import Not
+
 
 import arcade
 from item import battery, flash
@@ -145,3 +145,13 @@ class Player:
 
         if self.health <= 0:
             self.lost = True
+
+
+    def get_room(self,stride):
+        tile_x = int(self.x // TILE_SIZE) #position is in pixels so it convert to tile first
+        tile_y = int(self.y // TILE_SIZE)
+
+        room_x = (tile_x - 1) // stride #the -1 remove the outer wall
+        room_y = (tile_y - 1) // stride
+
+        return(room_x,room_y)

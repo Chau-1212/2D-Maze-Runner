@@ -2,6 +2,8 @@ import random
 
 from maze import TILE_SIZE
 from physic import is_walkable
+import math
+from time_state import *
 
 class enemy:
     def __init__(self,x,y):
@@ -9,7 +11,9 @@ class enemy:
         self.y = y
 
         self.speed = 0
+
         self.vision = 0
+        self.buffed_vision = 4
 
         self.state = "patrol"
 
@@ -36,7 +40,7 @@ class enemy:
                 self.vision = 4
                 self.speed = 40
 
-    def get_room(self,stride):
+    def get_room(self,stride:int) -> tuple[int,int]: #it define what is the returning type
         tile_x = int(self.x // TILE_SIZE) #position is in pixels so it convert to tile first
         tile_y = int(self.y // TILE_SIZE)
 
@@ -102,5 +106,21 @@ class enemy:
 
 
 
-    def chasing(self,player_x,player_y):
-        pass
+    def chasing(self,player,stride):
+        #Player is the player object
+        enemy_room = self.get_room(stride)
+        player_room = player.get_room(stride)
+
+        #now chekc are they in sam room
+        if enemy_room == player_room:
+            # directly approach it
+            pass
+        else:
+            # not in the same room, now check if it is within vision range
+            room_distance = math.sqrt(
+                (enemy_room[0] - player_room[0]) ** 2
+                +
+                (enemy_room[1] - player_room[1]) ** 2
+            )
+
+            if
