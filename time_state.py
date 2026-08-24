@@ -15,7 +15,7 @@ class time_state:
 
         elif self.state == "night":
             if self.timer >= 120:
-                if random.randint(0,100) <= 20:
+                if random.randrange(100) < 20: #randrange is 0-99 so this is a clean 20%
                     self.state = "blood moon"
                 else:
                     self.timer = 0

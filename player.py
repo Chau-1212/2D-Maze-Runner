@@ -1,5 +1,4 @@
-from curses import flash
-import numbers
+from ast import Not
 
 import arcade
 from item import battery, flash
@@ -13,7 +12,14 @@ class Player:
 
         # Stat
         self.health = 100
+
         self.hunger = 100
+        self.hunger_decay = 10/60 #10% per min
+
+        self.sprint_speed = 500
+        self.sprinting = False
+        self.sprinting_hunger_decay = 30/60 #30% per min
+
         self.lost = False
         self.win = False
 
@@ -91,3 +97,51 @@ class Player:
                 self.selected_slot = 1
             case 3:
                 self.selected_slot = 2
+
+    def moving(self,keys,delta_time):
+        #change in directoin
+        dx = 0
+        dy = 0
+
+        #This just check the directoin
+        if arcade.key.W in keys:
+            dy += 1
+
+        if arcade.key.S in keys:
+            dy -= 1
+
+        if arcade.key.A in keys:
+            dx -= 1
+
+        if arcade.key.D in keys:
+            dx += 1
+
+        #This check is it "sprinting"
+        if arcade.key.LSHIFT in keys:
+            Current_Speed = self.sprint_speed
+            self.sprinting = True
+        else:
+            Current_Speed = self.speed
+            self.sprinting = False
+
+        #This accturally move it
+        self.x += dx * Current_Speed * delta_time
+        self.y += dy * Current_Speed * delta_time
+
+        #if i just use W,A,S,D arcade won't handle it as W,A,S,D but binary of that verison
+
+    def hunger_update(self ,delta_time):
+
+        if self.sprint:
+            decay = self.sprinting_hunger_decay
+        else:
+            decay = self.hunger_decay
+
+        self.hunger -= decay * delta_time
+
+    def take_damage(self,damage):
+
+        self.health -= damage
+
+        if self.health <= 0:
+            self.lost = True
